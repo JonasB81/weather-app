@@ -10,10 +10,18 @@
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
+  cursor: pointer;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
+.logo.selected {
+  filter: drop-shadow(0 0 2em #646cff);
+  transform: scale(1.1);
+}
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -39,4 +47,50 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.weather-icons {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+
+.search-container {
+  margin: 2em 0;
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+}
+
+.search-container input {
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.search-container button {
+  padding: 0.5em 1em;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.search-container button:hover {
+  background-color: #535bf2;
+}
+
+.weather-info {
+  margin-top: 2em;
+  padding: 1em;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.weather-info p {
+  margin: 0.5em 0;
 }
