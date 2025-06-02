@@ -1,47 +1,27 @@
 /* Modern Weather App Styles */
 :root {
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
-  --background-color: #ffffff;
-  --text-color: #333333;
-  --card-background: #f8f9fa;
-  --border-color: #dee2e6;
-  --input-background: #ffffff;
-  --input-text: #333333;
-  --error-color: #dc3545;
-  --success-color: #28a745;
-  --hover-color: #0056b3;
+  --primary-color: #388e3c; /* Golf green */
+  --secondary-color: #6d4c41; /* Brown */
+  --background-color: #e8f5e9; /* Light green */
+  --text-color: #2e7d32; /* Dark green */
+  --card-background: rgba(241, 248, 233, 0.9); /* Very light green semi-transparent */
+  --border-color: #c8b69b; /* Sand border */
+  --input-background: rgba(249, 251, 231, 0.8); /* Pale green semi-transparent */
+  --input-text: #33691e; /* Deep green */
+  --error-color: #b71c1c;
+  --success-color: #43a047;
+  --hover-color: #4caf50; /* Medium green */
   --shadow-color: rgba(0, 0, 0, 0.1);
   --transition-speed: 0.3s;
-  --text-primary: #2d3748;
-  --text-secondary: #4a5568;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --gradient-sunny: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-  --gradient-cloudy: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-  --input-border: #e2e8f0;
+  --text-primary: #33691e;
+  --text-secondary: #6d4c41;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --gradient-sunny: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%); /* Golf fairway */
+  --gradient-cloudy: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%); /* Overcast sky */
+  --input-border: #c8b69b;
 }
 
-/* Dark mode variables */
-[data-theme="dark"] {
-  --primary-color: #0d6efd;
-  --secondary-color: #adb5bd;
-  --background-color: #121212;
-  --text-color: #e9ecef;
-  --card-background: #1e1e1e;
-  --border-color: #2d2d2d;
-  --input-background: #2d2d2d;
-  --input-text: #e9ecef;
-  --error-color: #dc3545;
-  --success-color: #28a745;
-  --hover-color: #0a58ca;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --text-primary: #f7fafc;
-  --text-secondary: #e2e8f0;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-  --gradient-sunny: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
-  --gradient-cloudy: linear-gradient(135deg, #4299e1 0%, #63b3ed 100%);
-  --input-border: #4a5568;
-}
+/* Remove Dark mode variables */
 
 * {
   margin: 0;
@@ -50,17 +30,24 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--background-color);
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('/img/golfcourse.avif') no-repeat center center fixed;
+  background-size: cover;
   color: var(--text-color);
   min-height: 100vh;
   width: 100vw;
   overflow-x: hidden;
   transition: background-color var(--transition-speed) ease;
+  position: relative;
+  z-index: 0;
+}
+
+/* Remove the dark overlay */
+body::before {
+  content: "";
+  background: none;
 }
 
 #root {
@@ -71,25 +58,30 @@ body {
   align-items: center;
   padding: 2rem;
   text-align: center;
-  background-color: var(--background-color);
+  background-color: transparent;
   transition: background-color var(--transition-speed) ease;
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
-  color: var(--text-primary);
-  font-size: 2.5rem;
+  color: var(--primary-color);
+  font-size: 3.5rem;
   margin-bottom: 2rem;
-  font-weight: 700;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 300;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   text-align: center;
+  background: none; /* Remove background */
+  padding: 0;
+  border-radius: 0;
+  display: block;
+  box-shadow: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .weather-icons {
-  display: flex;
-  gap: 3em;
-  justify-content: center;
-  margin-bottom: 3em;
-  padding: 1em;
+  display: none; /* Keep hidden as per previous instruction */
 }
 
 .logo {
@@ -98,19 +90,21 @@ h1 {
   will-change: transform;
   transition: all 0.3s ease;
   cursor: pointer;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3)); /* Adjust shadow */
   border-radius: 50%;
-  background: var(--card-background);
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  box-shadow: none; /* Remove box shadow */
 }
 
 .logo:hover {
   transform: translateY(-5px);
-  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4));
 }
 
 .logo.selected {
   transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(66, 153, 225, 0.5);
+  box-shadow: 0 0 20px rgba(140, 185, 179, 0.5); /* Use new primary color for selected state */
 }
 
 .logo.react:hover {
@@ -133,14 +127,29 @@ h1 {
 }
 
 .card {
-  background: var(--card-background);
+  background: transparent;
   padding: 2.5em;
   border-radius: 16px;
-  box-shadow: var(--shadow);
+  box-shadow: none;
   max-width: 600px;
   margin: 0 auto;
   transition: transform 0.3s ease;
   color: var(--text-primary);
+  position: relative;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle at 60% 60%, #fff 70%, #c8b69b 100%);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px 0 #c8b69b;
+  opacity: 0.25;
+  /* Golf ball accent */
 }
 
 .card:hover {
@@ -157,49 +166,65 @@ h1 {
   gap: 1em;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 1.5em;
+  background: var(--card-background); /* Use semi-transparent card background */
+  border-radius: 8px; /* Slightly smaller border radius */
+  border: 1px solid var(--border-color); /* Subtle border */
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.search-container::before,
+.search-container::after {
+  content: none; /* Remove flagstick and flag */
 }
 
 .search-container input {
   padding: 0.8em 1.5em;
-  border: 2px solid var(--input-border);
-  border-radius: 8px;
+  border: 1px solid var(--input-border); /* Subtle input border */
+  border-radius: 4px; /* Smaller border radius */
   font-size: 1em;
   width: 300px;
   transition: all 0.3s ease;
-  background: var(--input-background);
-  color: var(--text-primary);
+  background: var(--input-background); /* Semi-transparent input background */
+  color: var(--input-text);
 }
 
 .search-container input:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  border-color: var(--primary-color); /* Highlight with primary color */
+  box-shadow: 0 0 0 3px rgba(140, 185, 179, 0.3); /* Use primary color with transparency */
 }
 
 .search-container button {
   padding: 0.8em 1.5em;
   background: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 8px;
+  color: var(--background-color); /* Dark text on primary background */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Smaller border radius */
   cursor: pointer;
   font-size: 1em;
   font-weight: 600;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  position: relative;
 }
 
 .search-container button:hover {
   background: var(--secondary-color);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Adjust shadow */
+}
+
+.search-container button::after {
+  content: none; /* Remove golf ball accent */
 }
 
 .weather-info {
   margin-top: 2em;
   padding: 2em;
-  background: var(--card-background);
+  background: var(--card-background); /* Use semi-transparent card background */
   border-radius: 12px;
   box-shadow: var(--shadow);
   color: var(--text-primary);
@@ -213,8 +238,8 @@ h1 {
 }
 
 .weather-info p:first-child {
-  color: var(--text-primary);
-  font-size: 1.4em;
+  color: var(--primary-color);
+  font-size: 1.8em; /* Slightly larger for emphasis */
   font-weight: 600;
   margin-bottom: 1em;
 }
@@ -225,14 +250,6 @@ h1 {
     padding: 1rem;
   }
 
-  .weather-icons {
-    gap: 2em;
-  }
-
-  .logo {
-    height: 6em;
-  }
-
   .search-container input {
     width: 100%;
   }
@@ -240,14 +257,20 @@ h1 {
   .card {
     padding: 1.5em;
   }
+
+  h1 {
+    font-size: 2.5rem;
+  }
 }
 
 /* Weather-specific styles */
 .weather-sunny {
+  /* Keep previous weather gradient for now, can be adjusted */
   background: var(--gradient-sunny);
 }
 
 .weather-cloudy {
+  /* Keep previous weather gradient for now, can be adjusted */
   background: var(--gradient-cloudy);
 }
 
@@ -259,8 +282,8 @@ h1 {
 }
 
 .theme-button {
-  background: var(--card-background);
-  border: 2px solid var(--input-border);
+  background: var(--card-background); /* Use semi-transparent card background */
+  border: 1px solid var(--border-color); /* Subtle border */
   border-radius: 50%;
   width: 3rem;
   height: 3rem;
@@ -272,9 +295,165 @@ h1 {
   transition: all 0.3s ease;
   box-shadow: var(--shadow);
   color: var(--text-primary);
+  position: relative;
 }
 
 .theme-button:hover {
   transform: scale(1.1);
   border-color: var(--primary-color);
+}
+
+.theme-button::before,
+.theme-button::after {
+  content: none; /* Remove flagstick and flag */
+}
+
+.app-container {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url('/img/golfcourse.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.weather-content {
+  background: rgba(44, 85, 48, 0.9);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  letter-spacing: 1px;
+}
+
+.weather-message {
+  color: #ffffff;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 0 0 2rem 0;
+  opacity: 0.9;
+}
+
+.search-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+input {
+  flex: 1;
+  padding: 0.8rem 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+button {
+  background: #ffffff;
+  color: #2c5530;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.weather-info {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+.weather-info h2 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.weather-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.2rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.value {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .weather-content {
+    padding: 2rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .weather-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .weather-info {
+    padding: 1.5rem;
+  }
 }

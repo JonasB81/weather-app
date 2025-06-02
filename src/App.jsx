@@ -1,39 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [selectedWeather, setSelectedWeather] = useState(null);
   const [city, setCity] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [temperature, setTemperature] = useState(null);
   const [windSpeed, setWindSpeed] = useState(null);
   const [humidity, setHumidity] = useState(null);
   const [weatherDescription, setWeatherDescription] = useState("");
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setIsDarkMode(true);
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  }, []);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  };
-
-  const handleWeatherClick = (weather) => {
-    setSelectedWeather(weather);
-  };
 
   const handleSearch = () => {
     if (city.trim()) {
@@ -43,62 +17,53 @@ function App() {
       setTemperature(20);
       setWindSpeed(15);
       setHumidity(65);
-      setWeatherDescription("Soligt och varmt");
+      setWeatherDescription("Perfect conditions for golf!");
     }
   };
 
   return (
-    <>
-      <div className="theme-toggle">
-        <button onClick={toggleDarkMode} className="theme-button">
-          {isDarkMode ? '☀️' : '🌙'}
-        </button>
-      </div>
-      <div className="weather-icons">
-        <img
-          src="/img/sun.png"
-          className={`logo ${selectedWeather === "sun" ? "selected" : ""}`}
-          alt="Sun"
-          onClick={() => handleWeatherClick("sun")}
-        />
-        <img
-          src="/img/cloud.png"
-          className={`logo ${selectedWeather === "cloud" ? "selected" : ""}`}
-          alt="Cloud"
-          onClick={() => handleWeatherClick("cloud")}
-        />
-      </div>
-      <h1>Weather App</h1>
-      <div className="card">
-        <p>
-          {selectedWeather
-            ? `Du valde: ${
-                selectedWeather === "sun" ? "Soligt" : "Molnigt"
-              } väder! eller sök nedan för att se väder i din stad`
-            : "Välj ett väder genom att klicka på en ikon"}
+    <div className="app-container">
+      <div className="weather-content">
+        <h1>Golf Weather</h1>
+        <p className="weather-message">
+          Find out where the best golf weather is today!
         </p>
 
         <div className="search-container">
           <input
             type="text"
-            placeholder="Skriv in din stad"
+            placeholder="Enter your city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
-          <button onClick={handleSearch}>Sök</button>
+          <button onClick={handleSearch}>Search</button>
         </div>
 
         {selectedCity && (
           <div className="weather-info">
-            <p>Väder i {selectedCity}</p>
-            <p>Temperatur: {temperature}°C</p>
-            <p>Vindhastighet: {windSpeed} km/h</p>
-            <p>Fuktighet: {humidity}%</p>
-            <p>Väderbeskrivning: {weatherDescription}</p>
+            <h2>{selectedCity}</h2>
+            <div className="weather-grid">
+              <div className="weather-item">
+                <span className="label">Temperature</span>
+                <span className="value">{temperature}°C</span>
+              </div>
+              <div className="weather-item">
+                <span className="label">Wind Speed</span>
+                <span className="value">{windSpeed} km/h</span>
+              </div>
+              <div className="weather-item">
+                <span className="label">Humidity</span>
+                <span className="value">{humidity}%</span>
+              </div>
+              <div className="weather-item">
+                <span className="label">Conditions</span>
+                <span className="value">{weatherDescription}</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
