@@ -23,6 +23,24 @@ function App() {
       setIsDarkMode(true);
       document.documentElement.setAttribute("data-theme", "dark");
     }
+    // Ladda senaste sökta stad och dess väderdata
+    const savedCity = localStorage.getItem("lastCity");
+    const savedWeatherData = localStorage.getItem("lastWeatherData");
+    
+    if (savedCity) {
+      setCity(savedCity);
+      setSelectedCity(savedCity);
+    }
+    
+    if (savedWeatherData) {
+      const weatherData = JSON.parse(savedWeatherData);
+      setTemperature(weatherData.temperature);
+      setWindSpeed(weatherData.windSpeed);
+      setHumidity(weatherData.humidity);
+      setWeatherDescription(weatherData.weatherDescription);
+      setWindDirection(weatherData.windDirection);
+      setWindGust(weatherData.windGust);
+    }
   }, []);
 
   const toggleDarkMode = () => {
@@ -53,6 +71,19 @@ function App() {
         setWeatherDescription(data.current.condition.text);
         setWindDirection(data.current.wind_dir);
         setWindGust(data.current.gust_kph);
+        // Spara senaste sökta stad och dess väderdata
+        localStorage.setItem("lastCity", city);
+        localStorage.setItem(
+          "lastWeatherData",
+          JSON.stringify({
+            temperature: data.current.temp_c,
+            windSpeed: data.current.wind_kph,
+            humidity: data.current.humidity,
+            weatherDescription: data.current.condition.text,
+            windDirection: data.current.wind_dir,
+            windGust: data.current.gust_kph,
+          })
+        );
       } catch (err) {
         setError(
           "Kunde inte hämta väderdata. Kontrollera att stadsnamnet är korrekt."
