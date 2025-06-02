@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { getCurrentWeather } from "./services/weatherService";
 
 function App() {
+  const [selectedWeather, setSelectedWeather] = useState(null);
   const [city, setCity] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [temperature, setTemperature] = useState(null);
@@ -15,12 +16,6 @@ function App() {
   const [windGust, setWindGust] = useState(null);
 
   useEffect(() => {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setIsDarkMode(true);
-      document.documentElement.setAttribute("data-theme", "dark");
-    }
     // Ladda senaste sökta stad och dess väderdata
     const savedCity = localStorage.getItem("lastCity");
     const savedWeatherData = localStorage.getItem("lastWeatherData");
@@ -40,17 +35,6 @@ function App() {
       setWindGust(weatherData.windGust);
     }
   }, []);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   const handleWeatherClick = (weather) => {
     setSelectedWeather(weather);
@@ -83,7 +67,7 @@ function App() {
           })
         );
       } catch (err) {
-        setError("Could not fetch weather data. Please check the city name.");
+        setError("Kunde inte hämta väderdata. Kontrollera att stadsnamnet är korrekt.");
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -92,23 +76,41 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <div className="weather-content">
-        <h1>Golf Weather</h1>
-        <p className="weather-message">
-          Find out where the best golf weather is today!
+    <>
+      <div className="weather-icons">
+        <img
+          src="/img/sun.png"
+          className={`logo ${selectedWeather === "sun" ? "selected" : ""}`}
+          alt="Sun"
+          onClick={() => handleWeatherClick("sun")}
+        />
+        <img
+          src="/img/cloud.png"
+          className={`logo ${selectedWeather === "cloud" ? "selected" : ""}`}
+          alt="Cloud"
+          onClick={() => handleWeatherClick("cloud")}
+        />
+      </div>
+      <h1>Väder App</h1>
+      <div className="card">
+        <p>
+          {selectedWeather
+            ? `Du valde: ${
+                selectedWeather === "sun" ? "Soligt" : "Molnigt"
+              } väder! eller sök nedan för att se väder i din stad`
+            : "Välj ett väder genom att klicka på en ikon"}
         </p>
 
         <div className="search-container">
           <input
             type="text"
-            placeholder="Enter your city"
+            placeholder="Skriv in din stad"
             value={city}
             onChange={(e) => setCity(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSearch()}
           />
           <button onClick={handleSearch} disabled={isLoading}>
-            {isLoading ? "Loading..." : "Search"}
+            {isLoading ? "Laddar..." : "Sök"}
           </button>
         </div>
 
@@ -126,7 +128,7 @@ function App() {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
