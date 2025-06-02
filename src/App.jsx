@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
@@ -9,6 +9,27 @@ function App() {
   const [windSpeed, setWindSpeed] = useState(null);
   const [humidity, setHumidity] = useState(null);
   const [weatherDescription, setWeatherDescription] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkMode(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   const handleWeatherClick = (weather) => {
     setSelectedWeather(weather);
@@ -28,6 +49,11 @@ function App() {
 
   return (
     <>
+      <div className="theme-toggle">
+        <button onClick={toggleDarkMode} className="theme-button">
+          {isDarkMode ? '☀️' : '🌙'}
+        </button>
+      </div>
       <div className="weather-icons">
         <img
           src="/img/sun.png"

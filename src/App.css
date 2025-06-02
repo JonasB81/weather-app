@@ -1,5 +1,6 @@
 /* Modern Weather App Styles */
 :root {
+  /* Light mode variables */
   --primary-color: #2b6cb0;
   --secondary-color: #4299e1;
   --background-color: #f7fafc;
@@ -9,6 +10,23 @@
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --gradient-sunny: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
   --gradient-cloudy: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+  --input-border: #e2e8f0;
+  --input-background: var(--background-color);
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+  --primary-color: #63b3ed;
+  --secondary-color: #90cdf4;
+  --background-color: #1a202c;
+  --card-background: #2d3748;
+  --text-primary: #f7fafc;
+  --text-secondary: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --gradient-sunny: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+  --gradient-cloudy: linear-gradient(135deg, #4299e1 0%, #63b3ed 100%);
+  --input-border: #4a5568;
+  --input-background: #2d3748;
 }
 
 #root {
@@ -189,4 +207,31 @@ h1 {
 
 .weather-cloudy {
   background: var(--gradient-cloudy);
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.theme-button {
+  background: var(--card-background);
+  border: 2px solid var(--input-border);
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+.theme-button:hover {
+  transform: scale(1.1);
+  border-color: var(--primary-color);
 }
