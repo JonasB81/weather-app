@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { getCurrentWeather } from "./services/weatherService";
 
 function App() {
   const [selectedWeather, setSelectedWeather] = useState(null);
@@ -10,24 +11,26 @@ function App() {
   const [humidity, setHumidity] = useState(null);
   const [weatherDescription, setWeatherDescription] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
       setIsDarkMode(true);
-      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.setAttribute("data-theme", "dark");
     }
   }, []);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     if (!isDarkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
+      document.documentElement.setAttribute("data-theme", "dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
+      document.documentElement.removeAttribute("data-theme");
+      localStorage.setItem("theme", "light");
     }
   };
 
@@ -35,15 +38,25 @@ function App() {
     setSelectedWeather(weather);
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (city.trim()) {
-      setSelectedCity(city);
-      // Här kommer vi senare lägga till API-anrop för att hämta väderdata
-      // För nu sätter vi dummy-data
-      setTemperature(20);
-      setWindSpeed(15);
-      setHumidity(65);
-      setWeatherDescription("Soligt och varmt");
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await getCurrentWeather(city);
+        setSelectedCity(city);
+        setTemperature(data.current.temp_c);
+        setWindSpeed(data.current.wind_kph);
+        setHumidity(data.current.humidity);
+        setWeatherDescription(data.current.condition.text);
+      } catch (err) {
+        setError(
+          "Kunde inte hämta väderdata. Kontrollera att stadsnamnet är korrekt."
+        );
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -51,7 +64,7 @@ function App() {
     <>
       <div className="theme-toggle">
         <button onClick={toggleDarkMode} className="theme-button">
-          {isDarkMode ? '☀️' : '🌙'}
+          {isDarkMode ? "☀️" : "🌙"}
         </button>
       </div>
       <div className="weather-icons">
@@ -84,11 +97,16 @@ function App() {
             placeholder="Skriv in din stad"
             value={city}
             onChange={(e) => setCity(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSearch()}
           />
-          <button onClick={handleSearch}>Sök</button>
+          <button onClick={handleSearch} disabled={isLoading}>
+            {isLoading ? "Laddar..." : "Sök"}
+          </button>
         </div>
 
-        {selectedCity && (
+        {error && <p className="error">{error}</p>}
+
+        {selectedCity && !error && (
           <div className="weather-info">
             <p>Väder i {selectedCity}</p>
             <p>Temperatur: {temperature}°C</p>
