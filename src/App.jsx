@@ -14,6 +14,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [windDirection, setWindDirection] = useState(null);
+  const [windGust, setWindGust] = useState(null);
 
   useEffect(() => {
     // Check for saved theme preference
@@ -51,6 +52,7 @@ function App() {
         setHumidity(data.current.humidity);
         setWeatherDescription(data.current.condition.text);
         setWindDirection(data.current.wind_dir);
+        setWindGust(data.current.gust_kph);
       } catch (err) {
         setError(
           "Kunde inte hämta väderdata. Kontrollera att stadsnamnet är korrekt."
@@ -116,6 +118,7 @@ function App() {
             <p>Fuktighet: {humidity}%</p>
             <p>Väderbeskrivning: {weatherDescription}</p>
             <p>Vindriktning: {windDirection}</p>
+            <p>Vindgust: {windGust} km/h</p>
           </div>
         )}
       </div>
