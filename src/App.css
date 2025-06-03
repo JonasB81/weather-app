@@ -428,6 +428,102 @@ button:hover {
   font-weight: 500;
 }
 
+/* Favorite Cities Styles */
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.weather-header h3 {
+  margin: 0;
+  color: #ffffff;
+}
+
+.favorite-btn {
+  background: #ffbb33;
+  color: #2c5530;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.favorite-btn:hover {
+  background: #ffa500;
+  transform: translateY(-1px);
+}
+
+.favorites-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}
+
+.favorites-section h3 {
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.favorites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.favorite-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.favorite-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.favorite-city-name {
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 500;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.favorite-city-name:hover {
+  color: #ffbb33;
+}
+
+.remove-favorite-btn {
+  background: #ff4444;
+  color: #ffffff;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 1.8rem;
+  height: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-favorite-btn:hover {
+  background: #cc0000;
+  transform: scale(1.1);
+}
+
 @media (max-width: 480px) {
   .weather-content {
     padding: 2rem;
@@ -451,5 +547,15 @@ button:hover {
 
   .weather-info {
     padding: 1.5rem;
+  }
+
+  .weather-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .favorite-btn {
+    width: 100%;
   }
 }
