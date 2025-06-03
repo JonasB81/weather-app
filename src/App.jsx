@@ -124,7 +124,7 @@ function App() {
             <p>Fuktighet: {humidity}%</p>
             <p>Väderbeskrivning: {weatherDescription}</p>
             <p>Vindriktning: {windDirection}</p>
-            <p>Vindgust: {windGust} km/h</p>
+            <p>Vindby: {windGust} km/h</p>
           </div>
         )}
       </div>
