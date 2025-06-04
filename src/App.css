@@ -1,24 +1,24 @@
 /* Modern Weather App Styles */
 :root {
-  --primary-color: #388e3c; /* Golf green */
+  --primary-color: #2c5530; /* Darker green for better contrast */
   --secondary-color: #6d4c41; /* Brown */
   --background-color: #e8f5e9; /* Light green */
-  --text-color: #2e7d32; /* Dark green */
-  --card-background: rgba(241, 248, 233, 0.9); /* Very light green semi-transparent */
+  --text-color: #ffffff; /* Changed to white */
+  --card-background: rgba(255, 255, 255, 0.95); /* More opaque white background */
   --border-color: #c8b69b; /* Sand border */
-  --input-background: rgba(249, 251, 231, 0.8); /* Pale green semi-transparent */
-  --input-text: #33691e; /* Deep green */
+  --input-background: rgba(255, 255, 255, 0.95); /* More opaque white */
+  --input-text: #ffffff; /* Changed to white */
   --error-color: #b71c1c;
   --success-color: #43a047;
   --hover-color: #4caf50; /* Medium green */
-  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.2);
   --transition-speed: 0.3s;
-  --text-primary: #33691e;
-  --text-secondary: #6d4c41;
+  --text-primary: #ffffff; /* Changed to white */
+  --text-secondary: #ffffff; /* Changed to white */
   --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  --gradient-sunny: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%); /* Golf fairway */
-  --gradient-cloudy: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%); /* Overcast sky */
-  --input-border: #c8b69b;
+  --gradient-sunny: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
+  --gradient-cloudy: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%);
+  --input-border: #ffffff; /* Changed to white */
 }
 
 /* Remove Dark mode variables */
@@ -33,7 +33,7 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('/img/golfcourse.avif') no-repeat center center fixed;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/golfcourse.avif') no-repeat center center fixed;
   background-size: cover;
   color: var(--text-color);
   min-height: 100vh;
@@ -134,7 +134,7 @@ h1 {
   max-width: 600px;
   margin: 0 auto;
   transition: transform 0.3s ease;
-  color: var(--text-primary);
+  color: #ffffff; /* Changed to white */
   position: relative;
 }
 
@@ -167,9 +167,9 @@ h1 {
   justify-content: center;
   flex-wrap: wrap;
   padding: 1.5em;
-  background: var(--card-background); /* Use semi-transparent card background */
-  border-radius: 8px; /* Slightly smaller border radius */
-  border: 1px solid var(--border-color); /* Subtle border */
+  background: rgba(0, 0, 0, 0.3); /* Darker background */
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Lighter border */
   box-shadow: var(--shadow);
   position: relative;
 }
@@ -180,35 +180,31 @@ h1 {
 }
 
 .search-container input {
-  padding: 0.8em 1.5em;
-  border: 1px solid var(--input-border); /* Subtle input border */
-  border-radius: 4px; /* Smaller border radius */
-  font-size: 1em;
-  width: 300px;
+  padding: 1rem 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  font-size: 1.1rem;
+  background: rgba(0, 0, 0, 0.2);
+  color: #ffffff;
   transition: all 0.3s ease;
-  background: var(--input-background); /* Semi-transparent input background */
-  color: var(--input-text);
 }
 
-.search-container input:focus {
-  outline: none;
-  border-color: var(--primary-color); /* Highlight with primary color */
-  box-shadow: 0 0 0 3px rgba(140, 185, 179, 0.3); /* Use primary color with transparency */
+.search-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .search-container button {
   padding: 0.8em 1.5em;
   background: var(--primary-color);
-  color: var(--background-color); /* Dark text on primary background */
-  border: none; /* Remove border */
-  border-radius: 4px; /* Smaller border radius */
+  color: #ffffff; /* Changed to white */
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 1em;
   font-weight: 600;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  position: relative;
 }
 
 .search-container button:hover {
@@ -232,14 +228,14 @@ h1 {
 
 .weather-info p {
   margin: 0.8em 0;
-  color: var(--text-secondary);
+  color: #ffffff; /* Changed to white */
   font-size: 1.1em;
   line-height: 1.6;
 }
 
 .weather-info p:first-child {
-  color: var(--primary-color);
-  font-size: 1.8em; /* Slightly larger for emphasis */
+  color: #ffffff; /* Changed to white */
+  font-size: 1.8em;
   font-weight: 600;
   margin-bottom: 1em;
 }
@@ -318,29 +314,31 @@ h1 {
 }
 
 .weather-content {
-  background: rgba(44, 85, 48, 0.9);
+  background: rgba(44, 85, 48, 0.98); /* More opaque and darker background */
   border-radius: 20px;
   padding: 3rem;
   max-width: 500px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 h1 {
   color: #ffffff;
-  font-size: 2.5rem;
-  font-weight: 600;
+  font-size: 2.8rem; /* Increased from 2.5rem */
+  font-weight: 700; /* Increased from 600 */
   text-align: center;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem 0;
   letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .weather-message {
   color: #ffffff;
-  font-size: 1.1rem;
+  font-size: 1.2rem; /* Increased from 1.1rem */
   text-align: center;
   margin: 0 0 2rem 0;
-  opacity: 0.9;
+  opacity: 1; /* Increased from 0.9 */
+  font-weight: 500;
 }
 
 .search-container {
@@ -351,17 +349,18 @@ h1 {
 
 input {
   flex: 1;
-  padding: 0.8rem 1.2rem;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem 1.2rem; /* Increased padding */
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 10px;
-  font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
+  font-size: 1.1rem; /* Increased from 1rem */
+  background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
   transition: all 0.3s ease;
 }
 
 input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.8); /* Increased opacity */
+  font-size: 1.1rem; /* Increased from default */
 }
 
 input:focus {
@@ -388,16 +387,17 @@ button:hover {
 }
 
 .weather-info {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3); /* Darker background for weather info */
   border-radius: 15px;
   padding: 2rem;
 }
 
 .weather-info h2 {
   color: #ffffff;
-  font-size: 1.8rem;
+  font-size: 2rem; /* Increased from 1.8rem */
   margin: 0 0 1.5rem 0;
   text-align: center;
+  font-weight: 700;
 }
 
 .weather-grid {
@@ -407,7 +407,7 @@ button:hover {
 }
 
 .weather-item {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2); /* Darker background for weather items */
   padding: 1.2rem;
   border-radius: 12px;
   display: flex;
@@ -416,16 +416,17 @@ button:hover {
 }
 
 .label {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9); /* Increased from 0.7 */
+  font-size: 1rem; /* Increased from 0.9rem */
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 .value {
   color: #ffffff;
-  font-size: 1.3rem;
-  font-weight: 500;
+  font-size: 1.5rem; /* Increased from 1.3rem */
+  font-weight: 600;
 }
 
 /* Favorite Cities Styles */
@@ -524,6 +525,67 @@ button:hover {
   transform: scale(1.1);
 }
 
+/* Golf Courses Styles */
+.golf-courses-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}
+
+.golf-courses-section h3 {
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.loading {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-style: italic;
+}
+
+.no-courses {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-style: italic;
+}
+
+.golf-courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.golf-course-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.golf-course-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.golf-course-name {
+  color: #ffffff;
+  font-weight: 500;
+  flex: 1;
+  font-size: 1rem;
+}
+
+.golf-course-coords {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
 @media (max-width: 480px) {
   .weather-content {
     padding: 2rem;
@@ -558,4 +620,97 @@ button:hover {
   .favorite-btn {
     width: 100%;
   }
+
+  /* Mobile layout för väder och golf */
+  .weather-and-golf-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .golf-courses-list {
+    max-height: 200px;
+  }
+
+  .golf-course-item {
+    padding: 0.8rem;
+  }
+}
+
+/* Weather and Golf Container */
+.weather-and-golf-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.weather-info {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+/* Golf Courses Styles */
+.golf-courses-section {
+  flex: 1;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}
+
+.golf-courses-section h3 {
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.loading {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-style: italic;
+}
+
+.no-courses {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-style: italic;
+}
+
+.golf-courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.golf-course-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.golf-course-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.golf-course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.golf-course-name {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.golf-course-distance {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  font-style: italic;
 }

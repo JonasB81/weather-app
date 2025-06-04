@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { getCurrentWeather } from "./services/weatherService";
+import GolfCoursesNearby from "./components/GolfCoursesNearby";
 
 function App() {
   const [selectedWeather, setSelectedWeather] = useState(null);
@@ -15,9 +16,10 @@ function App() {
   const [windDirection, setWindDirection] = useState(null);
   const [windGust, setWindGust] = useState(null);
   const [favoriteCities, setFavoriteCities] = useState([]);
+  const [coordinates, setCoordinates] = useState({ lat: null, lon: null });
 
   useEffect(() => {
-    // Ladda senaste sökta stad och dess väderdata
+    // Load last searched city and its weather data
     const savedCity = localStorage.getItem("lastCity");
     const savedWeatherData = localStorage.getItem("lastWeatherData");
     const savedFavorites = localStorage.getItem("favoriteCities");
@@ -35,6 +37,9 @@ function App() {
       setWeatherDescription(weatherData.weatherDescription);
       setWindDirection(weatherData.windDirection);
       setWindGust(weatherData.windGust);
+      if (weatherData.lat && weatherData.lon) {
+        setCoordinates({ lat: weatherData.lat, lon: weatherData.lon });
+      }
     }
 
     if (savedFavorites) {
@@ -60,35 +65,45 @@ function App() {
     localStorage.setItem("favoriteCities", JSON.stringify(newFavorites));
   };
 
+  const updateWeatherData = (data, cityName) => {
+    setSelectedCity(cityName);
+    setTemperature(data.current.temp_c);
+    setWindSpeed(data.current.wind_kph);
+    setHumidity(data.current.humidity);
+    setWeatherDescription(data.current.condition.text);
+    setWindDirection(data.current.wind_dir);
+    setWindGust(data.current.gust_kph);
+
+    const lat = data.location.lat;
+    const lon = data.location.lon;
+    setCoordinates({ lat, lon });
+
+    localStorage.setItem("lastCity", cityName);
+    localStorage.setItem(
+      "lastWeatherData",
+      JSON.stringify({
+        temperature: data.current.temp_c,
+        windSpeed: data.current.wind_kph,
+        humidity: data.current.humidity,
+        weatherDescription: data.current.condition.text,
+        windDirection: data.current.wind_dir,
+        windGust: data.current.gust_kph,
+        lat: lat,
+        lon: lon,
+      })
+    );
+  };
+
   const handleFavoriteClick = async (favoriteCity) => {
     setCity(favoriteCity);
     setIsLoading(true);
     setError(null);
     try {
       const data = await getCurrentWeather(favoriteCity);
-      setSelectedCity(favoriteCity);
-      setTemperature(data.current.temp_c);
-      setWindSpeed(data.current.wind_kph);
-      setHumidity(data.current.humidity);
-      setWeatherDescription(data.current.condition.text);
-      setWindDirection(data.current.wind_dir);
-      setWindGust(data.current.gust_kph);
-      // Spara senaste sökta stad och dess väderdata
-      localStorage.setItem("lastCity", favoriteCity);
-      localStorage.setItem(
-        "lastWeatherData",
-        JSON.stringify({
-          temperature: data.current.temp_c,
-          windSpeed: data.current.wind_kph,
-          humidity: data.current.humidity,
-          weatherDescription: data.current.condition.text,
-          windDirection: data.current.wind_dir,
-          windGust: data.current.gust_kph,
-        })
-      );
+      updateWeatherData(data, favoriteCity);
     } catch (err) {
       setError(
-        "Kunde inte hämta väderdata. Kontrollera att stadsnamnet är korrekt."
+        "Could not fetch weather data. Please check if the city name is correct."
       );
       console.error(err);
     } finally {
@@ -102,29 +117,10 @@ function App() {
       setError(null);
       try {
         const data = await getCurrentWeather(city);
-        setSelectedCity(city);
-        setTemperature(data.current.temp_c);
-        setWindSpeed(data.current.wind_kph);
-        setHumidity(data.current.humidity);
-        setWeatherDescription(data.current.condition.text);
-        setWindDirection(data.current.wind_dir);
-        setWindGust(data.current.gust_kph);
-        // Spara senaste sökta stad och dess väderdata
-        localStorage.setItem("lastCity", city);
-        localStorage.setItem(
-          "lastWeatherData",
-          JSON.stringify({
-            temperature: data.current.temp_c,
-            windSpeed: data.current.wind_kph,
-            humidity: data.current.humidity,
-            weatherDescription: data.current.condition.text,
-            windDirection: data.current.wind_dir,
-            windGust: data.current.gust_kph,
-          })
-        );
+        updateWeatherData(data, city);
       } catch (err) {
         setError(
-          "Kunde inte hämta väderdata. Kontrollera att stadsnamnet är korrekt."
+          "Could not fetch weather data. Please check if the city name is correct."
         );
         console.error(err);
       } finally {
@@ -149,53 +145,65 @@ function App() {
           onClick={() => handleWeatherClick("cloud")}
         />
       </div>
-      <h1>Väder App</h1>
+      <h1>Golf Weather</h1>
       <div className="card">
         <p>
           {selectedWeather
-            ? `Du valde: ${
-                selectedWeather === "sun" ? "Soligt" : "Molnigt"
-              } väder! eller sök nedan för att se väder i din stad`
-            : "Välj ett väder genom att klicka på en ikon"}
+            ? `You selected: ${
+                selectedWeather === "sun"
+                  ? "Perfect golf weather"
+                  : "Cloudy conditions"
+              }! Check the weather for your golf course below`
+            : ""}
         </p>
 
         <div className="search-container">
           <input
             type="text"
-            placeholder="Skriv in din stad"
+            placeholder="Enter your golf course location"
             value={city}
             onChange={(e) => setCity(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSearch()}
           />
           <button onClick={handleSearch} disabled={isLoading}>
-            {isLoading ? "Laddar..." : "Sök"}
+            {isLoading ? "Loading..." : "Check Conditions"}
           </button>
         </div>
 
         {error && <p className="error">{error}</p>}
 
         {selectedCity && !error && (
-          <div className="weather-info">
-            <div className="weather-header">
-              <h3>Väder i {selectedCity}</h3>
-              {!favoriteCities.includes(selectedCity) && (
-                <button onClick={addToFavorites} className="favorite-btn">
-                  ⭐ Lägg till favorit
-                </button>
-              )}
+          <div className="weather-and-golf-container">
+            <div className="weather-info">
+              <div className="weather-header">
+                <h3>Väder i {selectedCity}</h3>
+                {!favoriteCities.includes(selectedCity) && (
+                  <button onClick={addToFavorites} className="favorite-btn">
+                    ⭐ Lägg till favorit
+                  </button>
+                )}
+              </div>
+              <p>Temperatur: {temperature}°C</p>
+              <p>Vindhastighet: {windSpeed} km/h</p>
+              <p>Fuktighet: {humidity}%</p>
+              <p>Väderbeskrivning: {weatherDescription}</p>
+              <p>Vindriktning: {windDirection}</p>
+              <p>Vindby: {windGust} km/h</p>
             </div>
-            <p>Temperatur: {temperature}°C</p>
-            <p>Vindhastighet: {windSpeed} km/h</p>
-            <p>Fuktighet: {humidity}%</p>
-            <p>Väderbeskrivning: {weatherDescription}</p>
-            <p>Vindriktning: {windDirection}</p>
-            <p>Vindby: {windGust} km/h</p>
+
+            {coordinates.lat && coordinates.lon && (
+              <GolfCoursesNearby
+                lat={coordinates.lat}
+                lon={coordinates.lon}
+                cityName={selectedCity}
+              />
+            )}
           </div>
         )}
 
         {favoriteCities.length > 0 && (
           <div className="favorites-section">
-            <h3>Favoritstäder</h3>
+            <h3>Saved Golf Courses</h3>
             <div className="favorites-list">
               {favoriteCities.map((favoriteCity) => (
                 <div key={favoriteCity} className="favorite-item">
