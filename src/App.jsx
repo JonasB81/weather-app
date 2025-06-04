@@ -17,7 +17,7 @@ function App() {
   const [favoriteCities, setFavoriteCities] = useState([]);
 
   useEffect(() => {
-    // Ladda senaste sökta stad och dess väderdata
+    // Load last searched city and its weather data
     const savedCity = localStorage.getItem("lastCity");
     const savedWeatherData = localStorage.getItem("lastWeatherData");
     const savedFavorites = localStorage.getItem("favoriteCities");
@@ -73,7 +73,7 @@ function App() {
       setWeatherDescription(data.current.condition.text);
       setWindDirection(data.current.wind_dir);
       setWindGust(data.current.gust_kph);
-      // Spara senaste sökta stad och dess väderdata
+      // Save last searched city and its weather data
       localStorage.setItem("lastCity", favoriteCity);
       localStorage.setItem(
         "lastWeatherData",
@@ -88,7 +88,7 @@ function App() {
       );
     } catch (err) {
       setError(
-        "Kunde inte hämta väderdata. Kontrollera att stadsnamnet är korrekt."
+        "Could not fetch weather data. Please check if the city name is correct."
       );
       console.error(err);
     } finally {
@@ -109,7 +109,7 @@ function App() {
         setWeatherDescription(data.current.condition.text);
         setWindDirection(data.current.wind_dir);
         setWindGust(data.current.gust_kph);
-        // Spara senaste sökta stad och dess väderdata
+        // Save last searched city and its weather data
         localStorage.setItem("lastCity", city);
         localStorage.setItem(
           "lastWeatherData",
@@ -124,7 +124,7 @@ function App() {
         );
       } catch (err) {
         setError(
-          "Kunde inte hämta väderdata. Kontrollera att stadsnamnet är korrekt."
+          "Could not fetch weather data. Please check if the city name is correct."
         );
         console.error(err);
       } finally {
@@ -149,26 +149,26 @@ function App() {
           onClick={() => handleWeatherClick("cloud")}
         />
       </div>
-      <h1>Väder App</h1>
+      <h1>Golf Weather</h1>
       <div className="card">
         <p>
           {selectedWeather
-            ? `Du valde: ${
-                selectedWeather === "sun" ? "Soligt" : "Molnigt"
-              } väder! eller sök nedan för att se väder i din stad`
-            : "Välj ett väder genom att klicka på en ikon"}
+            ? `You selected: ${
+                selectedWeather === "sun" ? "Perfect golf weather" : "Cloudy conditions"
+              }! Check the weather for your golf course below`
+            : "Select weather conditions by clicking on an icon"}
         </p>
 
         <div className="search-container">
           <input
             type="text"
-            placeholder="Skriv in din stad"
+            placeholder="Enter your golf course location"
             value={city}
             onChange={(e) => setCity(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSearch()}
           />
           <button onClick={handleSearch} disabled={isLoading}>
-            {isLoading ? "Laddar..." : "Sök"}
+            {isLoading ? "Loading..." : "Check Conditions"}
           </button>
         </div>
 
@@ -177,25 +177,25 @@ function App() {
         {selectedCity && !error && (
           <div className="weather-info">
             <div className="weather-header">
-              <h3>Väder i {selectedCity}</h3>
+              <h3>Golf Conditions in {selectedCity}</h3>
               {!favoriteCities.includes(selectedCity) && (
                 <button onClick={addToFavorites} className="favorite-btn">
-                  ⭐ Lägg till favorit
+                  ⭐ Save Course
                 </button>
               )}
             </div>
-            <p>Temperatur: {temperature}°C</p>
-            <p>Vindhastighet: {windSpeed} km/h</p>
-            <p>Fuktighet: {humidity}%</p>
-            <p>Väderbeskrivning: {weatherDescription}</p>
-            <p>Vindriktning: {windDirection}</p>
-            <p>Vindby: {windGust} km/h</p>
+            <p>Temperature: {temperature}°C</p>
+            <p>Wind Speed: {windSpeed} km/h</p>
+            <p>Humidity: {humidity}%</p>
+            <p>Conditions: {weatherDescription}</p>
+            <p>Wind Direction: {windDirection}</p>
+            <p>Wind Gust: {windGust} km/h</p>
           </div>
         )}
 
         {favoriteCities.length > 0 && (
           <div className="favorites-section">
-            <h3>Favoritstäder</h3>
+            <h3>Saved Golf Courses</h3>
             <div className="favorites-list">
               {favoriteCities.map((favoriteCity) => (
                 <div key={favoriteCity} className="favorite-item">

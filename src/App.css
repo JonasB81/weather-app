@@ -434,17 +434,24 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .weather-header h3 {
   margin: 0;
   color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 600;
+  flex: 1;
+  text-align: center;
 }
 
 .favorite-btn {
   background: #ffbb33;
-  color: #ffffff; /* Changed to white */
+  color: #ffffff;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -452,6 +459,7 @@ button:hover {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .favorite-btn:hover {
@@ -556,10 +564,16 @@ button:hover {
   .weather-header {
     flex-direction: column;
     gap: 1rem;
-    align-items: stretch;
+    align-items: center;
+  }
+
+  .weather-header h3 {
+    width: 100%;
+    text-align: center;
   }
 
   .favorite-btn {
     width: 100%;
+    max-width: 200px;
   }
 }
