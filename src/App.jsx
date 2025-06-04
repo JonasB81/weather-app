@@ -156,7 +156,7 @@ function App() {
             ? `You selected: ${
                 selectedWeather === "sun" ? "Perfect golf weather" : "Cloudy conditions"
               }! Check the weather for your golf course below`
-            : "Select weather conditions by clicking on an icon"}
+            : ""}
         </p>
 
         <div className="search-container">
@@ -190,6 +190,13 @@ function App() {
             <p>Conditions: {weatherDescription}</p>
             <p>Wind Direction: {windDirection}</p>
             <p>Wind Gust: {windGust} km/h</p>
+            <p className="golf-prediction">
+              {weatherDescription.toLowerCase().includes('rain') || weatherDescription.toLowerCase().includes('drizzle')
+                ? "Not ideal for golf today ⛔"
+                : windSpeed > 40 || windGust > 50
+                ? "Too windy for golf today 💨"
+                : "Good day for golf! ⛳"}
+            </p>
           </div>
         )}
 
