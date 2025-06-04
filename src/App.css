@@ -434,24 +434,17 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .weather-header h3 {
   margin: 0;
   color: #ffffff;
-  font-size: 1.8rem;
-  font-weight: 600;
-  flex: 1;
-  text-align: center;
 }
 
 .favorite-btn {
   background: #ffbb33;
-  color: #ffffff;
+  color: #2c5530;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -459,7 +452,6 @@ button:hover {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  white-space: nowrap;
 }
 
 .favorite-btn:hover {
@@ -470,7 +462,7 @@ button:hover {
 .favorites-section {
   margin-top: 2rem;
   padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.3); /* Darker background for favorites section */
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
 }
 
@@ -478,8 +470,6 @@ button:hover {
   color: #ffffff;
   margin: 0 0 1rem 0;
   text-align: center;
-  font-size: 1.4rem; /* Added explicit font size */
-  font-weight: 600;
 }
 
 .favorites-list {
@@ -492,21 +482,20 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2); /* Darker background for favorite items */
+  background: rgba(255, 255, 255, 0.1);
   padding: 0.8rem 1.2rem;
   border-radius: 10px;
   transition: all 0.3s ease;
 }
 
 .favorite-item:hover {
-  background: rgba(0, 0, 0, 0.3); /* Slightly lighter on hover */
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .favorite-city-name {
   color: #ffffff;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 1.1rem; /* Added explicit font size */
+  font-weight: 500;
   flex: 1;
   transition: all 0.3s ease;
 }
@@ -534,6 +523,67 @@ button:hover {
 .remove-favorite-btn:hover {
   background: #cc0000;
   transform: scale(1.1);
+}
+
+/* Golf Courses Styles */
+.golf-courses-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}
+
+.golf-courses-section h3 {
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.loading {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-style: italic;
+}
+
+.no-courses {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-style: italic;
+}
+
+.golf-courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.golf-course-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.golf-course-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.golf-course-name {
+  color: #ffffff;
+  font-weight: 500;
+  flex: 1;
+  font-size: 1rem;
+}
+
+.golf-course-coords {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  font-family: monospace;
 }
 
 @media (max-width: 480px) {
@@ -564,16 +614,103 @@ button:hover {
   .weather-header {
     flex-direction: column;
     gap: 1rem;
-    align-items: center;
-  }
-
-  .weather-header h3 {
-    width: 100%;
-    text-align: center;
+    align-items: stretch;
   }
 
   .favorite-btn {
     width: 100%;
-    max-width: 200px;
   }
+
+  /* Mobile layout för väder och golf */
+  .weather-and-golf-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .golf-courses-list {
+    max-height: 200px;
+  }
+
+  .golf-course-item {
+    padding: 0.8rem;
+  }
+}
+
+/* Weather and Golf Container */
+.weather-and-golf-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.weather-info {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+/* Golf Courses Styles */
+.golf-courses-section {
+  flex: 1;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}
+
+.golf-courses-section h3 {
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.loading {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-style: italic;
+}
+
+.no-courses {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-style: italic;
+}
+
+.golf-courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.golf-course-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.golf-course-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.golf-course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.golf-course-name {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.golf-course-distance {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  font-style: italic;
 }

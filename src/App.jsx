@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { getCurrentWeather } from "./services/weatherService";
+import GolfCoursesNearby from "./components/GolfCoursesNearby";
 
 function App() {
   const [selectedWeather, setSelectedWeather] = useState(null);
@@ -15,6 +16,7 @@ function App() {
   const [windDirection, setWindDirection] = useState(null);
   const [windGust, setWindGust] = useState(null);
   const [favoriteCities, setFavoriteCities] = useState([]);
+  const [coordinates, setCoordinates] = useState({ lat: null, lon: null });
 
   useEffect(() => {
     // Load last searched city and its weather data
@@ -35,6 +37,9 @@ function App() {
       setWeatherDescription(weatherData.weatherDescription);
       setWindDirection(weatherData.windDirection);
       setWindGust(weatherData.windGust);
+      if (weatherData.lat && weatherData.lon) {
+        setCoordinates({ lat: weatherData.lat, lon: weatherData.lon });
+      }
     }
 
     if (savedFavorites) {
@@ -60,32 +65,42 @@ function App() {
     localStorage.setItem("favoriteCities", JSON.stringify(newFavorites));
   };
 
+  const updateWeatherData = (data, cityName) => {
+    setSelectedCity(cityName);
+    setTemperature(data.current.temp_c);
+    setWindSpeed(data.current.wind_kph);
+    setHumidity(data.current.humidity);
+    setWeatherDescription(data.current.condition.text);
+    setWindDirection(data.current.wind_dir);
+    setWindGust(data.current.gust_kph);
+
+    const lat = data.location.lat;
+    const lon = data.location.lon;
+    setCoordinates({ lat, lon });
+
+    localStorage.setItem("lastCity", cityName);
+    localStorage.setItem(
+      "lastWeatherData",
+      JSON.stringify({
+        temperature: data.current.temp_c,
+        windSpeed: data.current.wind_kph,
+        humidity: data.current.humidity,
+        weatherDescription: data.current.condition.text,
+        windDirection: data.current.wind_dir,
+        windGust: data.current.gust_kph,
+        lat: lat,
+        lon: lon,
+      })
+    );
+  };
+
   const handleFavoriteClick = async (favoriteCity) => {
     setCity(favoriteCity);
     setIsLoading(true);
     setError(null);
     try {
       const data = await getCurrentWeather(favoriteCity);
-      setSelectedCity(favoriteCity);
-      setTemperature(data.current.temp_c);
-      setWindSpeed(data.current.wind_kph);
-      setHumidity(data.current.humidity);
-      setWeatherDescription(data.current.condition.text);
-      setWindDirection(data.current.wind_dir);
-      setWindGust(data.current.gust_kph);
-      // Save last searched city and its weather data
-      localStorage.setItem("lastCity", favoriteCity);
-      localStorage.setItem(
-        "lastWeatherData",
-        JSON.stringify({
-          temperature: data.current.temp_c,
-          windSpeed: data.current.wind_kph,
-          humidity: data.current.humidity,
-          weatherDescription: data.current.condition.text,
-          windDirection: data.current.wind_dir,
-          windGust: data.current.gust_kph,
-        })
-      );
+      updateWeatherData(data, favoriteCity);
     } catch (err) {
       setError(
         "Could not fetch weather data. Please check if the city name is correct."
@@ -102,26 +117,7 @@ function App() {
       setError(null);
       try {
         const data = await getCurrentWeather(city);
-        setSelectedCity(city);
-        setTemperature(data.current.temp_c);
-        setWindSpeed(data.current.wind_kph);
-        setHumidity(data.current.humidity);
-        setWeatherDescription(data.current.condition.text);
-        setWindDirection(data.current.wind_dir);
-        setWindGust(data.current.gust_kph);
-        // Save last searched city and its weather data
-        localStorage.setItem("lastCity", city);
-        localStorage.setItem(
-          "lastWeatherData",
-          JSON.stringify({
-            temperature: data.current.temp_c,
-            windSpeed: data.current.wind_kph,
-            humidity: data.current.humidity,
-            weatherDescription: data.current.condition.text,
-            windDirection: data.current.wind_dir,
-            windGust: data.current.gust_kph,
-          })
-        );
+        updateWeatherData(data, city);
       } catch (err) {
         setError(
           "Could not fetch weather data. Please check if the city name is correct."
@@ -154,7 +150,9 @@ function App() {
         <p>
           {selectedWeather
             ? `You selected: ${
-                selectedWeather === "sun" ? "Perfect golf weather" : "Cloudy conditions"
+                selectedWeather === "sun"
+                  ? "Perfect golf weather"
+                  : "Cloudy conditions"
               }! Check the weather for your golf course below`
             : ""}
         </p>
@@ -175,28 +173,31 @@ function App() {
         {error && <p className="error">{error}</p>}
 
         {selectedCity && !error && (
-          <div className="weather-info">
-            <div className="weather-header">
-              <h3>Golf Conditions in {selectedCity}</h3>
-              {!favoriteCities.includes(selectedCity) && (
-                <button onClick={addToFavorites} className="favorite-btn">
-                  ⭐ Save Course
-                </button>
-              )}
+          <div className="weather-and-golf-container">
+            <div className="weather-info">
+              <div className="weather-header">
+                <h3>Väder i {selectedCity}</h3>
+                {!favoriteCities.includes(selectedCity) && (
+                  <button onClick={addToFavorites} className="favorite-btn">
+                    ⭐ Lägg till favorit
+                  </button>
+                )}
+              </div>
+              <p>Temperatur: {temperature}°C</p>
+              <p>Vindhastighet: {windSpeed} km/h</p>
+              <p>Fuktighet: {humidity}%</p>
+              <p>Väderbeskrivning: {weatherDescription}</p>
+              <p>Vindriktning: {windDirection}</p>
+              <p>Vindby: {windGust} km/h</p>
             </div>
-            <p>Temperature: {temperature}°C</p>
-            <p>Wind Speed: {windSpeed} km/h</p>
-            <p>Humidity: {humidity}%</p>
-            <p>Conditions: {weatherDescription}</p>
-            <p>Wind Direction: {windDirection}</p>
-            <p>Wind Gust: {windGust} km/h</p>
-            <p className="golf-prediction">
-              {weatherDescription.toLowerCase().includes('rain') || weatherDescription.toLowerCase().includes('drizzle')
-                ? "Not ideal for golf today ⛔"
-                : windSpeed > 40 || windGust > 50
-                ? "Too windy for golf today 💨"
-                : "Good day for golf! ⛳"}
-            </p>
+
+            {coordinates.lat && coordinates.lon && (
+              <GolfCoursesNearby
+                lat={coordinates.lat}
+                lon={coordinates.lon}
+                cityName={selectedCity}
+              />
+            )}
           </div>
         )}
 
