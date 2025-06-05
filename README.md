@@ -70,8 +70,13 @@ The app provides golf-specific recommendations based on weather conditions:
 
 ## Deployment
 
-- **Production**: https://your-vercel-name.vercel.app (main branch)
+- **Production**: https://weather-q65sdbrpi-jonasbs-projects.vercel.app/ (main branch)
+  - Live demo of the golf weather application
+  - Features real-time weather data and golf condition predictions
+  - Automatically updates with each merge to main
 - **Staging/Test**: Preview link from Vercel (staging branch)
+  - Used for testing new features before production deployment
+  - Available through Vercel preview deployments
 
 ## Contributing
 
